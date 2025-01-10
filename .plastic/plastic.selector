@@ -1,0 +1,4 @@
+repository "2D-Rogue-like-game 2025-01-11_01-49-27/2D-Rogue-like-game@10171371469444@cloud"
+  path "/"
+    br "/main"
+    co "/main"
