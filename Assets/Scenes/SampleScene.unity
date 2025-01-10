@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 72270837}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  maxHealth: 100
 --- !u!95 &72270837
 Animator:
   serializedVersion: 5
@@ -374,8 +375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: 0
-  Bullet: {fileID: 5630461329466783752, guid: 8b47791af30b17141b05294a088f14f2, type: 3}
-  shotPoint: {fileID: 1337099872}
+  arrowPrefab: {fileID: 5630461329466783752, guid: 8b47791af30b17141b05294a088f14f2, type: 3}
   startTimeBtwShots: 0.25
 --- !u!212 &175084840
 SpriteRenderer:
@@ -695,7 +695,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1337099872}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Shotpoint
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
@@ -731,9 +731,10 @@ GameObject:
   - component: {fileID: 1983771416}
   - component: {fileID: 1983771415}
   - component: {fileID: 1983771414}
-  m_Layer: 0
+  - component: {fileID: 1983771419}
+  m_Layer: 8
   m_Name: BigZombie
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -763,7 +764,7 @@ Animator:
   m_GameObject: {fileID: 1983771412}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b479a898157295241b60eede6ffb7634, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -923,6 +924,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1983771419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983771412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02dae5dba0541544f9f1801e07a636ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  speed: 1
+  attackDamage: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
