@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Arrow
   layers:
   - Default
   - TransparentFX
@@ -13,6 +15,7 @@ TagManager:
   - UI
   - 
   - 
+  - Solid
   - 
   - 
   - 
@@ -35,8 +38,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - shotpoint
   m_SortingLayers:
   - name: Default
     uniqueID: 0
