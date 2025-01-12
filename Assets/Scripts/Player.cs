@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public float speed;
+    public int maxHealth = 100; // ћаксимальное здоровье игрока
+    [SerializeField] private int currentHealth; // “екущее здоровье игрока
+    public Text healthDisplay; 
+    public Shield shielTimer;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -15,10 +19,18 @@ public class Player : MonoBehaviour
 
     private bool facingRight = true;
 
+    public GameObject shield;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        // Ќе инициализируем currentHealth здесь, чтобы использовать значение из инспектора
+        if (currentHealth <= 0)
+        {
+            currentHealth = maxHealth; // ”станавливаем текущее здоровье равным максимальному, если оно не задано в инспекторе
+        }
     }
 
     void Update()
@@ -30,21 +42,18 @@ public class Player : MonoBehaviour
 
     private void HandleMovementInput()
     {
-        // ѕолучаем ввод пользовател€
         moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         moveVelocity = moveInput.normalized * speed;
     }
 
     private void HandleAnimation()
     {
-        // ”станавливаем анимацию бега
         bool isRunning = moveInput.x != 0 || moveInput.y != 0;
         animator.SetBool("isRunning", isRunning);
     }
 
     private void HandleFlip()
     {
-        // ѕровер€ем, нужно ли перевернуть спрайт персонажа
         if (!facingRight && moveInput.x > 0)
         {
             Flip();
@@ -57,16 +66,66 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        // ƒвигаем персонажа
         rb.MovePosition(rb.position + moveVelocity * Time.fixedDeltaTime);
     }
 
     private void Flip()
     {
-        // ћен€ем направление персонажа
         facingRight = !facingRight;
         Vector3 scaler = transform.localScale;
         scaler.x *= -1;
         transform.localScale = scaler;
+    }
+
+    private void Die()
+    {
+        Debug.Log("Player has died.");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        Debug.Log("Player took damage: " + damage + ". Current health: " + currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Potion"))
+        {
+            ChangeHealth(5);
+            Destroy(other.gameObject);
+        }
+        else if (other.CompareTag("Shield"))
+        {
+            shield.SetActive(true);
+            Destroy(other.gameObject);
+        }
+    }
+
+    private void ChangeHealth(int amount)
+    {
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        if (shield.activeInHierarchy || shield.activeInHierarchy && currentHealth > 0)
+        {
+            currentHealth += amount;
+            healthDisplay.text = "HP: " + currentHealth;
+        }
+
+        Debug.Log("Player health changed by: " + amount + ". Current health: " + currentHealth);
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
     }
 }
